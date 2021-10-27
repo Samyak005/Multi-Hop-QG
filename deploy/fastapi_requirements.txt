@@ -1,0 +1,7 @@
+fastapi
+# spacy
+uvicorn
+mypy
+flake8
+black
+ipykernel
