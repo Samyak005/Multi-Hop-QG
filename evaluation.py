@@ -4,7 +4,9 @@ from collections import OrderedDict
 import json
 
 if __name__ == '__main__':
-    df = pd.read_csv('predicted_supporting_facts1.csv')
+    # df = pd.read_csv('predicted_supporting_facts1.csv') # T5 Supporting Facts
+    # df = pd.read_csv('predicted_full_context.csv') # T5 Full Context
+    df = pd.read_csv('predicted_gpt2_context.csv') # GPT2 Full context (first 2)
     ref = df["question"].tolist()
     hyp = df["predicted"].tolist()
 
