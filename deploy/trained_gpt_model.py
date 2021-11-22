@@ -55,7 +55,7 @@ tokenizer = get_tokenier(special_tokens=SPECIAL_TOKENS)
 
 gpt2_model = get_model(tokenizer, 
                   special_tokens=SPECIAL_TOKENS,
-                  load_model_path='pytorch_model.bin')
+                  load_model_path='/content/drive/MyDrive/gpt_model_output-final/checkpoint-276/pytorch_model.bin')
 
 
 def inference(answer, context, model, device):
@@ -67,7 +67,7 @@ def inference(answer, context, model, device):
     generated = generated.to(device)
     sample_outputs = model.generate(generated, 
                                 do_sample=True,   
-                                min_length=50, 
+                                min_length=3, 
                                 max_length=MAXLEN,
                                 top_k=30,                                 
                                 top_p=0.7,        
@@ -78,10 +78,10 @@ def inference(answer, context, model, device):
     
     for i, sample_output in enumerate(sample_outputs):
         question = tokenizer.decode(sample_output, skip_special_tokens=True)
-        #a = len(context) + len(answer)
-        logging.debug("Decoded string" + question)    
-        print(question)
-        return question
+        a = len(context) + len(answer)
+        logging.debug("Decoded string" + question[a:] + "\n")    
+        print("\n" + question[a:])
+        return question[a:]
     
 def get_inference2(answer, context):
     return inference(answer, context, gpt2_model, device)
@@ -90,4 +90,3 @@ if __name__ == "__main__":
     answer = "a fusional language"
     context = "Typologically, Estonian represents a transitional form from an agglutinating language to a fusional language. The canonical word order is SVO (subject–verb–object)."
     inference(answer, context, gpt2_model, device)
-    
