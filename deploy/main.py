@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from trained_model import get_inference
+from trained_gpt_model import get_inference2
 from pydantic import BaseModel
 from typing import List
 
@@ -24,4 +25,10 @@ def generate_question(inp: Input):
     """
     generated_question = get_inference(inp.answer, inp.context)
     return {"question": generated_question,
+            "input": inp}
+
+@app.post("/generate_question2/")
+def generate_question2(inp: Input):
+    generated_question2 = get_inference2(inp.answer, inp.context)
+    return {"question": generated_question2,
             "input": inp}
