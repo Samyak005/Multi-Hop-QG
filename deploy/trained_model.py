@@ -3,6 +3,8 @@ import torch
 import logging
 # Transformer version 4.9.1 - Newer versions may not work.
 from transformers import AutoTokenizer
+from trained_gpt_model import get_inference2
+
 
 def t5_supp_inference(review_text):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # CPU may not work, got to check.
@@ -152,3 +154,5 @@ def get_inference(answer, context, model_name):
         return bart_supp_inference(valuation_text)
     elif model_name == 'bart_full':
         return bart_full_inference(valuation_text)
+    elif model_name == 'gpt2':
+        return get_inference2(answer, context)
