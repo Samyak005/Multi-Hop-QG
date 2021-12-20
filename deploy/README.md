@@ -8,9 +8,23 @@ pip install -r fastapi_requirements.txt
 pip install transformers==4.9.1
 ```
 
-#### Deploying backend
+## Trained Models
 
-Put the pretrained model on the directory that contains `main.py` and `trained_model.py`. The name of the pretrained model should be `model_hotpot_last.pth` or you can edit `trained_model.py` if your pretrained model has a different name.
+We have trained three models, two of them trained with both supporting facts and full context.
+
+Models details and corresponding names are as follows.
+
+1. `t5_supp` - T5 with supporting facts.
+2. `t5_full` - T5 with full context.
+3. `gpt2` - GPT2 with full context.
+4. `bart_supp` - BART with supporting facts.
+5. `bart_full`- BART with full context.
+
+The code for deployment assumes that the models except `gpt2` are in the folder `../trained_models`.
+
+## Deploying Backend
+
+Put the pretrained models on the appropriate directories or modify the path files in the code. 
 
 ##### Starting backend
 
@@ -28,11 +42,9 @@ Go to `Try it out`
 
 
 
-Give the `context` and `answer`, then execute.
+Give the `context`, `answer`, and `model_name`.  Then execute.
 
 ![Try API](./images/generate_request)
-
-
 
 You can find the generated question in the response section below that.
 

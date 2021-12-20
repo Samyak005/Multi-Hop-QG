@@ -3,7 +3,8 @@ import logging
 
 from transformers import AutoTokenizer, AutoModelForPreTraining, AutoConfig
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # CPU may not work, got to check.
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # CPU may not work, got to check.
+device = torch.device('cpu') # CPU may not work, got to check.
 print('Using device:' + str(device))
 MODEL = 'gpt2'
 SEQ_LENGTH = 600
@@ -45,9 +46,9 @@ def get_model(tokenizer, special_tokens=None, load_model_path=None):
         model.resize_token_embeddings(len(tokenizer))
 
     if load_model_path:
-        model.load_state_dict(torch.load(load_model_path))
+        model.load_state_dict(torch.load(load_model_path, map_location=torch.device('cpu')))
 
-    model.cuda()
+    model.to(device)
     model.eval()
     return model
 
@@ -55,7 +56,7 @@ tokenizer = get_tokenier(special_tokens=SPECIAL_TOKENS)
 
 gpt2_model = get_model(tokenizer, 
                   special_tokens=SPECIAL_TOKENS,
-                  load_model_path='/content/drive/MyDrive/gpt_model_output-final/checkpoint-276/pytorch_model.bin')
+                  load_model_path='./gpt_model_output-final/checkpoint-276/pytorch_model.bin')
 
 
 def inference(answer, context, model, device):
@@ -63,7 +64,7 @@ def inference(answer, context, model, device):
             SPECIAL_TOKENS['sep_token'] + answer + SPECIAL_TOKENS['sep_token']
             
     generated = torch.tensor(tokenizer.encode(prompt)).unsqueeze(0)
-    device = torch.device("cuda")
+    device = torch.device("cpu")
     generated = generated.to(device)
     sample_outputs = model.generate(generated, 
                                 do_sample=True,   
